@@ -1,0 +1,33 @@
+version: '3.5'
+
+services:
+  milvus-etcd:
+    image: quay.io/coreos/etcd:v3.5.5
+    container_name: milvus-etcd
+    ports:
+      - "2379:2379"
+      - "2380:2380"
+    environment:
+      - ALLOW_NONE_AUTHENTICATION=yes
+      - ETCD_UNSUPPORTED_ARCH=arm64
+    command: etcd -advertise-client-urls http://0.0.0.0:2379 \
+                 -listen-client-urls http://0.0.0.0:2379 \
+                 -initial-advertise-peer-urls http://0.0.0.0:2380 \
+                 -listen-peer-urls http://0.0.0.0:2380 \
+                 -initial-cluster-token etcd-cluster-1 \
+                 -initial-cluster etcd=http://0.0.0.0:2380 \
+                 -initial-cluster-state new
+
+  milvus:
+    image: milvusdb/milvus:v2.3.3
+    container_name: milvus
+    ports:
+      - "19530:19530" # Milvus gRPC
+      - "19121:19121" # Milvus HTTP
+    volumes:
+      - milvus_data:/var/lib/milvus
+    depends_on:
+      - milvus-etcd
+
+volumes:
+  milvus_data:
