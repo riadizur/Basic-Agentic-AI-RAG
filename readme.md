@@ -19,7 +19,7 @@ graph TD
     subgraph Embedder Service
         B1[📄 File Watcher & Parser]
         B2[✂️ Text Chunker]
-        B3[🧠 Embedder (Ollama / Azure)]
+        B3[🧠 Embedder Ollama / Azure]
         B4[📦 Vector Uploader]
         B5[📝 Metadata Store]
     end
@@ -31,9 +31,9 @@ graph TD
 
     subgraph Query Runner Service
         D1[❓ User Query Input]
-        D2[🔍 Vector Search (FAISS + Milvus)]
+        D2[🔍 Vector Search FAISS + Milvus]
         D3[📚 Context Assembler]
-        D4[🧠 LLM (Ollama / Azure OpenAI)]
+        D4[🧠 LLM Ollama / Azure OpenAI]
         D5[📝 Answer Response]
     end
 
